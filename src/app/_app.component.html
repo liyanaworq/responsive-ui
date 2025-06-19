@@ -1,0 +1,31 @@
+<!-- Final responsive Angular layout - app.component.html -->
+<div class="min-h-screen bg-gray-50 text-gray-800 relative">
+  <!-- Top Navbar -->
+  <app-navbar (toggleSidebar)="toggleMobileSidebar()"></app-navbar>
+
+  <!-- Mobile Sidebar Overlay -->
+  <div *ngIf="isMobileSidebarOpen" class="fixed inset-0 z-40 bg-black bg-opacity-50 sm:hidden" (click)="toggleMobileSidebar()"></div>
+
+  <!-- Mobile Sidebar Panel -->
+  <div *ngIf="isMobileSidebarOpen" class="fixed top-0 left-0 z-50 w-64 h-full bg-white shadow transform transition-transform sm:hidden">
+    <app-sidebar (itemClicked)="toggleMobileSidebar()"></app-sidebar>
+  </div>
+
+  <!-- Desktop Layout -->
+  <div class="hidden sm:grid sm:grid-cols-[auto,1fr,auto] h-screen w-full">
+    <!-- Sidebar (Left) -->
+    <aside class="bg-white border-r w-48 h-full">
+      <app-sidebar></app-sidebar>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="overflow-auto w-full h-full p-6">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Tools Panel (Right) -->
+    <aside class="bg-white border-l w-48 h-full">
+      <app-sidebar></app-sidebar>
+    </aside>
+  </div>
+</div>
