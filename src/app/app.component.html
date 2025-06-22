@@ -1,27 +1,91 @@
-<app-navbar
-  [collapsed]="navbarCollapsed"
-  (toggleMobilePanelEvent)="toggleMobilePanel($event)"
-  (closeAllMobilePanelsEvent)="closeAllMobilePanels()"
-  (toggleNavbarEvent)="toggleNavbar()">
-</app-navbar>
-
-<!-- Desktop layout -->
-<div class="hidden sm:flex h-[calc(100vh-4.5rem)] w-full overflow-hidden" [ngStyle]="{ height: navbarCollapsed ? 'calc(100vh - 3rem)' : 'calc(100vh - 4.5rem)' }">
-  <app-sidebar
-    side="left"
-    [collapsed]="leftCollapsed"
-    (togglePanelEvent)="togglePanel('left')"
-    (setContentEvent)="setContent($event)">
-  </app-sidebar>
-
-  <div class="flex-grow overflow-auto p-6">
-    <app-content [contentHtml]="contentHtml"></app-content>
+<!-- app.component.html -->
+<div class="bg-gray-50 text-gray-800 min-h-screen relative">
+  <!-- 📱 Floating Buttons -->
+  <div class="sm:hidden fixed top-4 left-4 z-50">
+    <button (click)="toggleMobilePanel('left')" class="bg-white border shadow text-gray-600 p-2 rounded-full hover:bg-gray-100">
+      <span class="material-icons">menu</span>
+    </button>
   </div>
 
-  <app-sidebar
-    side="right"
-    [collapsed]="rightCollapsed"
-    (togglePanelEvent)="togglePanel('right')"
-    (setContentEvent)="setContent($event)">
-  </app-sidebar>
+  <div class="sm:hidden fixed bottom-4 right-4 z-50">
+    <button (click)="toggleMobilePanel('right')" class="bg-white border shadow text-gray-600 p-2 rounded-full hover:bg-gray-100">
+      <span class="material-icons">more_vert</span>
+    </button>
+  </div>
+
+  <!-- 📱 Backdrop Overlay -->
+  <div id="mobileOverlay"
+       class="sm:hidden fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-40 hidden"
+       (click)="closeAllMobilePanels()"></div>
+
+  <!-- 🧭 Navbar Component -->
+  <app-navbar
+    [collapsed]="navbarCollapsed"
+    (toggleNavbarEvent)="toggleNavbar()"
+    (toggleMobilePanelEvent)="toggleMobilePanel($event)"
+    (closeAllMobilePanelsEvent)="closeAllMobilePanels()">
+  </app-navbar>
+
+  <!-- 📱 Mobile Slide-Out Panels -->
+  <div id="mobileLeft" class="mobile-slide mobile-left-hidden sm:hidden">
+    <div class="flex justify-between items-center px-4 py-3 border-b">
+      <span class="text-sm font-semibold text-gray-700">Navigation</span>
+      <button (click)="toggleMobilePanel('left')" class="material-icons text-gray-500">close</button>
+    </div>
+    <ul class="text-sm p-4 space-y-3">
+      <li (click)="toggleMobilePanel('left')">
+        <a routerLink="/dashboard" class="flex items-center gap-2 hover:underline">📊 <span>Dashboard</span></a>
+      </li>
+      <li (click)="toggleMobilePanel('left')">
+        <a routerLink="/profile" class="flex items-center gap-2 hover:underline">👤 <span>Profile</span></a>
+      </li>
+      <li (click)="toggleMobilePanel('left')">
+        <a routerLink="/settings" class="flex items-center gap-2 hover:underline">⚙️ <span>Settings</span></a>
+      </li>
+    </ul>
+  </div>
+
+  <div id="mobileRight" class="mobile-slide mobile-right-hidden sm:hidden">
+    <div class="flex justify-between items-center px-4 py-3 border-b">
+      <span class="text-sm font-semibold text-gray-700">Tools</span>
+      <button (click)="toggleMobilePanel('right')" class="material-icons text-gray-500">close</button>
+    </div>
+    <ul class="text-sm p-4 space-y-3">
+      <li (click)="toggleMobilePanel('right')">
+        <a routerLink="/tools" class="flex items-center gap-2 hover:underline">🛠️ <span>Tools</span></a>
+      </li>
+      <li (click)="toggleMobilePanel('right')">
+        <a routerLink="/help" class="flex items-center gap-2 hover:underline">❓ <span>Help</span></a>
+      </li>
+      <li (click)="toggleMobilePanel('right')">
+        <a routerLink="/about" class="flex items-center gap-2 hover:underline">ℹ️ <span>About</span></a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 🖥️ Desktop Layout -->
+  <div class="hidden sm:flex w-full overflow-hidden"
+       [ngStyle]="{ height: navbarCollapsed ? 'calc(100vh - 3rem)' : 'calc(100vh - 4.5rem)' }">
+
+    <app-sidebar
+      side="left"
+      [collapsed]="leftCollapsed"
+      (togglePanelEvent)="togglePanel('left')">
+    </app-sidebar>
+
+    <div class="flex-grow overflow-auto p-6">
+      <app-content></app-content>
+    </div>
+
+    <app-sidebar
+      side="right"
+      [collapsed]="rightCollapsed"
+      (togglePanelEvent)="togglePanel('right')">
+    </app-sidebar>
+  </div>
+
+  <!-- 📱 Mobile Content -->
+  <div class="sm:hidden px-4 pt-20 pb-6">
+    <app-content></app-content>
+  </div>
 </div>

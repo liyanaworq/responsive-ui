@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
-  imports: [],
+  selector: 'app-profile', 
   template: `<p>profile works!</p>`,
   styleUrls: ['./profile.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

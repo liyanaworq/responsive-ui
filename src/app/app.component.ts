@@ -13,15 +13,15 @@ export class AppComponent {
 
   leftCollapsed = false;
   rightCollapsed = false;
-navbarCollapsed = false;
-
-toggleNavbar() {
-  this.navbarCollapsed = !this.navbarCollapsed;
-}
+  navbarCollapsed = false;
 
   togglePanel(side: 'left' | 'right') {
     if (side === 'left') this.leftCollapsed = !this.leftCollapsed;
     if (side === 'right') this.rightCollapsed = !this.rightCollapsed;
+  }
+
+  toggleNavbar() {
+    this.navbarCollapsed = !this.navbarCollapsed;
   }
 
   toggleMobilePanel(side: 'left' | 'right') {
@@ -29,14 +29,15 @@ toggleNavbar() {
     const other = document.getElementById(`mobile${side === 'left' ? 'Right' : 'Left'}`);
     const overlay = document.getElementById('mobileOverlay');
 
-    target?.classList.toggle(`mobile-${side}-show`);
-    target?.classList.toggle(`mobile-${side}-hidden`);
+    target?.classList.add(`mobile-${side}-show`);
+    target?.classList.remove(`mobile-${side}-hidden`);
 
-    other?.classList.add(`mobile-${side === 'left' ? 'right' : 'left'}-hidden`);
     other?.classList.remove(`mobile-${side === 'left' ? 'right' : 'left'}-show`);
+    other?.classList.add(`mobile-${side === 'left' ? 'right' : 'left'}-hidden`);
 
-    const isOpen = target?.classList.contains(`mobile-${side}-show`);
-    overlay?.classList.toggle('hidden', !isOpen);
+    if (target?.classList.contains(`mobile-${side}-show`)) {
+      overlay?.classList.remove('hidden');
+    }
   }
 
   closeAllMobilePanels() {

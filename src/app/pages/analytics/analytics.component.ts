@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-analytics',
-  standalone: true,
-  imports: [],
+  selector: 'app-analytics', 
   template: `<p>analytics works!</p>`,
   styleUrls: ['./analytics.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
