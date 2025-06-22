@@ -1,9 +1,31 @@
-<!-- navbar.component.html -->
-<nav class="w-full bg-white shadow-sm px-4 py-2 fixed top-0 z-40 sm:relative">
-  <div class="flex justify-between items-center">
-    <span class="font-semibold text-gray-800">My App</span>
-    <button class="sm:hidden" (click)="toggleSidebar.emit()">
-      <span class="material-icons">menu</span>
+<!-- 📱 Mobile Backdrop -->
+<div id="mobileOverlay"
+     class="sm:hidden fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-40 hidden"
+     (click)="closeOverlay()"></div>
+
+<!-- 📱 Mobile Buttons -->
+<div class="sm:hidden fixed top-4 left-4 z-50">
+  <button (click)="toggleMobile('left')" class="bg-white border shadow text-gray-600 p-2 rounded-full hover:bg-gray-100">
+    <span class="material-icons">menu</span>
+  </button>
+</div>
+<div class="sm:hidden fixed top-4 right-4 z-50">
+  <button (click)="toggleMobile('right')" class="bg-white border shadow text-gray-600 p-2 rounded-full hover:bg-gray-100">
+    <span class="material-icons">more_vert</span>
+  </button>
+</div>
+
+<!-- 🖥️ Desktop Navbar -->
+<div class="hidden sm:flex items-center justify-between bg-white border-b w-full panel-transition"
+     [ngStyle]="{ height: collapsed ? '3rem' : '4.5rem' }">
+  <div class="flex items-center px-4 gap-4">
+    <button (click)="toggleNavbar()" class="material-icons text-gray-500">
+      {{ collapsed ? 'expand_more' : 'expand_less' }}
     </button>
+    <h1 *ngIf="!collapsed" class="text-lg font-semibold text-gray-700">My Dashboard</h1>
   </div>
-</nav>
+  <div class="flex items-center gap-4 px-4">
+    <span class="material-icons text-gray-500 cursor-pointer">notifications</span>
+    <span class="material-icons text-gray-500 cursor-pointer">account_circle</span>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -6,6 +6,21 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  @Input() collapsed: boolean = false;
 
-  @Output() toggleSidebar = new EventEmitter<void>();
+  @Output() toggleMobilePanelEvent = new EventEmitter<'left' | 'right'>();
+  @Output() closeAllMobilePanelsEvent = new EventEmitter<void>();
+  @Output() toggleNavbarEvent = new EventEmitter<void>();
+
+  toggleMobile(side: 'left' | 'right') {
+    this.toggleMobilePanelEvent.emit(side);
+  }
+
+  closeOverlay() {
+    this.closeAllMobilePanelsEvent.emit();
+  }
+
+  toggleNavbar() {
+    this.toggleNavbarEvent.emit();
+  }
 }

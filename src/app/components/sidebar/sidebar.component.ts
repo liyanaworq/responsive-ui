@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
+  @Input() collapsed: boolean = false;
+  @Input() side: 'left' | 'right' = 'left';
+  @Output() togglePanelEvent = new EventEmitter<void>();
+  @Output() setContentEvent = new EventEmitter<string>();
 
+  setContent(content: string) {
+    this.setContentEvent.emit(content);
+  }
+
+  togglePanel() {
+    this.togglePanelEvent.emit();
+  }
 }

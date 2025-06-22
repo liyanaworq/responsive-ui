@@ -1,78 +1,27 @@
-<!-- app.component.html -->
-<div class="bg-gray-50 text-gray-800 min-h-screen relative">
-  <!-- 📱 Mobile Backdrop -->
-  <div id="mobileOverlay" class="sm:hidden fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm z-40 hidden" (click)="closeAllMobilePanels()"></div>
+<app-navbar
+  [collapsed]="navbarCollapsed"
+  (toggleMobilePanelEvent)="toggleMobilePanel($event)"
+  (closeAllMobilePanelsEvent)="closeAllMobilePanels()"
+  (toggleNavbarEvent)="toggleNavbar()">
+</app-navbar>
 
-  <!-- 📱 Mobile Buttons -->
-  <div class="sm:hidden fixed top-4 left-4 z-50">
-    <button (click)="toggleMobilePanel('left')" class="bg-white border shadow text-gray-600 p-2 rounded-full hover:bg-gray-100">
-      <span class="material-icons">menu</span>
-    </button>
-  </div>
-  <div class="sm:hidden fixed top-4 right-4 z-50">
-    <button (click)="toggleMobilePanel('right')" class="bg-white border shadow text-gray-600 p-2 rounded-full hover:bg-gray-100">
-      <span class="material-icons">more_vert</span>
-    </button>
-  </div>
+<!-- Desktop layout -->
+<div class="hidden sm:flex h-[calc(100vh-4.5rem)] w-full overflow-hidden" [ngStyle]="{ height: navbarCollapsed ? 'calc(100vh - 3rem)' : 'calc(100vh - 4.5rem)' }">
+  <app-sidebar
+    side="left"
+    [collapsed]="leftCollapsed"
+    (togglePanelEvent)="togglePanel('left')"
+    (setContentEvent)="setContent($event)">
+  </app-sidebar>
 
-  <!-- 📱 Mobile Panels -->
-  <div id="mobileLeft" class="mobile-slide mobile-left-hidden sm:hidden">
-    <div class="flex justify-between items-center px-4 py-3 border-b">
-      <span class="text-sm font-semibold text-gray-700">Navigation</span>
-      <button (click)="toggleMobilePanel('left')" class="material-icons text-gray-500">close</button>
-    </div>
-    <ul class="text-sm p-4 space-y-3">
-      <li (click)="setContent('dashboard'); toggleMobilePanel('left')" class="flex items-center gap-2 cursor-pointer hover:underline">📊 <span>Dashboard</span></li>
-      <li (click)="setContent('profile'); toggleMobilePanel('left')" class="flex items-center gap-2 cursor-pointer hover:underline">👤 <span>Profile</span></li>
-      <li (click)="setContent('settings'); toggleMobilePanel('left')" class="flex items-center gap-2 cursor-pointer hover:underline">⚙️ <span>Settings</span></li>
-    </ul>
+  <div class="flex-grow overflow-auto p-6">
+    <app-content [contentHtml]="contentHtml"></app-content>
   </div>
 
-  <div id="mobileRight" class="mobile-slide mobile-right-hidden sm:hidden">
-    <div class="flex justify-between items-center px-4 py-3 border-b">
-      <button (click)="toggleMobilePanel('right')" class="material-icons text-gray-500">close</button>
-      <span class="text-sm font-semibold text-gray-700">Tools</span>
-    </div>
-    <ul class="text-sm p-4 space-y-3">
-      <li (click)="setContent('tools'); toggleMobilePanel('right')" class="flex items-center gap-2 cursor-pointer hover:underline">🛠️ <span>Tools</span></li>
-      <li (click)="setContent('help'); toggleMobilePanel('right')" class="flex items-center gap-2 cursor-pointer hover:underline">❓ <span>Help</span></li>
-      <li (click)="setContent('about'); toggleMobilePanel('right')" class="flex items-center gap-2 cursor-pointer hover:underline">ℹ️ <span>About</span></li>
-    </ul>
-  </div>
-
-  <!-- 🖥️ Desktop Layout -->
-  <div class="hidden sm:flex h-screen w-full overflow-hidden">
-    <div class="panel-transition bg-white border-r w-48 overflow-hidden" #leftPanel>
-      <div class="flex justify-between items-center px-4 py-3 border-b">
-        <span class="text-sm font-semibold text-gray-700" #leftTitle>Navigation</span>
-        <button (click)="togglePanel('left')" class="material-icons text-gray-500">chevron_left</button>
-      </div>
-      <ul class="text-sm p-4 space-y-3">
-        <li (click)="setContent('dashboard')" class="flex items-center gap-2 cursor-pointer hover:underline">📊 <span #leftLabel1>Dashboard</span></li>
-        <li (click)="setContent('profile')" class="flex items-center gap-2 cursor-pointer hover:underline">👤 <span #leftLabel2>Profile</span></li>
-        <li (click)="setContent('settings')" class="flex items-center gap-2 cursor-pointer hover:underline">⚙️ <span #leftLabel3>Settings</span></li>
-      </ul>
-    </div>
-
-    <div class="panel-transition bg-gray-50 overflow-auto p-6 grow">
-      <div id="contentWrapper" class="bg-white rounded-lg shadow p-6 transition-all duration-300 opacity-100 transform translate-y-0" [innerHTML]="contentHtml"></div>
-    </div>
-
-    <div class="panel-transition bg-white border-l w-48 overflow-hidden" #rightPanel>
-      <div class="flex justify-between items-center px-4 py-3 border-b">
-        <button (click)="togglePanel('right')" class="material-icons text-gray-500">chevron_right</button>
-        <span class="text-sm font-semibold text-gray-700" #rightTitle>Tools</span>
-      </div>
-      <ul class="text-sm p-4 space-y-3">
-        <li (click)="setContent('tools')" class="flex items-center gap-2 cursor-pointer hover:underline">🛠️ <span #rightLabel1>Tools</span></li>
-        <li (click)="setContent('help')" class="flex items-center gap-2 cursor-pointer hover:underline">❓ <span #rightLabel2>Help</span></li>
-        <li (click)="setContent('about')" class="flex items-center gap-2 cursor-pointer hover:underline">ℹ️ <span #rightLabel3>About</span></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- 📱 Mobile Content -->
-  <div class="sm:hidden px-4 pt-20 pb-6">
-    <div id="contentWrapperMobile" class="bg-white rounded-lg shadow p-6 transition-all duration-300 opacity-100 transform translate-y-0" [innerHTML]="contentHtml"></div>
-  </div>
+  <app-sidebar
+    side="right"
+    [collapsed]="rightCollapsed"
+    (togglePanelEvent)="togglePanel('right')"
+    (setContentEvent)="setContent($event)">
+  </app-sidebar>
 </div>

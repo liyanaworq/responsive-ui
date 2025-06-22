@@ -1,5 +1,4 @@
-// app.component.ts
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,17 +6,6 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  @ViewChild('leftPanel') leftPanel!: ElementRef;
-  @ViewChild('rightPanel') rightPanel!: ElementRef;
-  @ViewChild('leftTitle') leftTitle!: ElementRef;
-  @ViewChild('rightTitle') rightTitle!: ElementRef;
-  @ViewChild('leftLabel1') leftLabel1!: ElementRef;
-  @ViewChild('leftLabel2') leftLabel2!: ElementRef;
-  @ViewChild('leftLabel3') leftLabel3!: ElementRef;
-  @ViewChild('rightLabel1') rightLabel1!: ElementRef;
-  @ViewChild('rightLabel2') rightLabel2!: ElementRef;
-  @ViewChild('rightLabel3') rightLabel3!: ElementRef;
-
   contentHtml: string = `
     <h2 class="text-2xl font-semibold mb-4">Welcome 👋</h2>
     <p class="text-gray-600">Click the sidebar to load content. On mobile, tap the floating buttons.</p>
@@ -25,25 +13,15 @@ export class AppComponent {
 
   leftCollapsed = false;
   rightCollapsed = false;
+navbarCollapsed = false;
+
+toggleNavbar() {
+  this.navbarCollapsed = !this.navbarCollapsed;
+}
 
   togglePanel(side: 'left' | 'right') {
-    if (side === 'left') {
-      this.leftCollapsed = !this.leftCollapsed;
-      this.leftPanel.nativeElement.style.width = this.leftCollapsed ? '3.5rem' : '12rem';
-      this.leftTitle.nativeElement.style.display = this.leftCollapsed ? 'none' : 'inline';
-      [this.leftLabel1, this.leftLabel2, this.leftLabel3].forEach(label => {
-        label.nativeElement.style.display = this.leftCollapsed ? 'none' : 'inline';
-      });
-    }
-
-    if (side === 'right') {
-      this.rightCollapsed = !this.rightCollapsed;
-      this.rightPanel.nativeElement.style.width = this.rightCollapsed ? '3.5rem' : '12rem';
-      this.rightTitle.nativeElement.style.display = this.rightCollapsed ? 'none' : 'inline';
-      [this.rightLabel1, this.rightLabel2, this.rightLabel3].forEach(label => {
-        label.nativeElement.style.display = this.rightCollapsed ? 'none' : 'inline';
-      });
-    }
+    if (side === 'left') this.leftCollapsed = !this.leftCollapsed;
+    if (side === 'right') this.rightCollapsed = !this.rightCollapsed;
   }
 
   toggleMobilePanel(side: 'left' | 'right') {

@@ -1,8 +1,40 @@
-<!-- sidebar.component.html -->
-<div class="w-48 sm:block hidden bg-white border-r h-full">
-  <ul class="text-sm p-3 space-y-2">
-    <li routerLink="/dashboard" routerLinkActive="font-bold">📊 Dashboard</li>
-    <li routerLink="/profile" routerLinkActive="font-bold">👤 Profile</li>
-    <li routerLink="/settings" routerLinkActive="font-bold">⚙️ Settings</li>
+<div
+  class="panel-transition bg-white border-r overflow-hidden h-full"
+  [ngClass]="{'border-l': side === 'right'}"
+  [ngStyle]="{ width: collapsed ? '3.5rem' : '12rem' }"
+>
+  <div class="flex justify-between items-center px-4 py-3 border-b">
+    <span *ngIf="!collapsed" class="text-sm font-semibold text-gray-700">
+      {{ side === 'left' ? 'Navigation' : 'Tools' }}
+    </span>
+    <button (click)="togglePanel()" class="material-icons text-gray-500">
+      {{ side === 'left' ? 'chevron_left' : 'chevron_right' }}
+    </button>
+  </div>
+
+  <ul class="text-sm p-4 space-y-3">
+    <ng-container *ngIf="side === 'left'">
+      <li (click)="setContent('dashboard')" class="flex items-center gap-2 cursor-pointer hover:underline">
+        📊 <span *ngIf="!collapsed">Dashboard</span>
+      </li>
+      <li (click)="setContent('profile')" class="flex items-center gap-2 cursor-pointer hover:underline">
+        👤 <span *ngIf="!collapsed">Profile</span>
+      </li>
+      <li (click)="setContent('settings')" class="flex items-center gap-2 cursor-pointer hover:underline">
+        ⚙️ <span *ngIf="!collapsed">Settings</span>
+      </li>
+    </ng-container>
+
+    <ng-container *ngIf="side === 'right'">
+      <li (click)="setContent('tools')" class="flex items-center gap-2 cursor-pointer hover:underline">
+        🛠️ <span *ngIf="!collapsed">Tools</span>
+      </li>
+      <li (click)="setContent('help')" class="flex items-center gap-2 cursor-pointer hover:underline">
+        ❓ <span *ngIf="!collapsed">Help</span>
+      </li>
+      <li (click)="setContent('about')" class="flex items-center gap-2 cursor-pointer hover:underline">
+        ℹ️ <span *ngIf="!collapsed">About</span>
+      </li>
+    </ng-container>
   </ul>
 </div>
